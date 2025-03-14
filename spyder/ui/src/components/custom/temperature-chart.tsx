@@ -31,6 +31,12 @@ interface TemperatureChartProps {
   }[];
 }
 
+/**
+ * Temperature chart component that displays the temperature chart.
+ *
+ * @param {TemperatureChartProps} props The component props.
+ * @returns {JSX.Element} The rendered temperature chart component.
+ */
 const TemperatureChart: React.FC<TemperatureChartProps> = ({ data }) => {
   return (
     <Card>
