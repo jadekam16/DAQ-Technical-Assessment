@@ -10,16 +10,16 @@ import { TooltipButton } from "@/components/custom/tooltip-button"
 import DashboardLayout from "@/components/custom/dashboard/dashboard-layout"
 import RedbackLogoDarkMode from "../../public/logo-darkmode.svg"
 import RedbackLogoLightMode from "../../public/logo-lightmode.svg"
-import { useWebSocketData } from "@/hooks/use-websocket-data"
+import { DataProvider, useData } from "@/contexts/data-wrapper"
 
 /**
- * Page component that displays DAQ technical assessment. Contains the LiveValue component as well as page header and labels.
+ * Dashboard content component that displays the main dashboard layout.
  *
- * @returns {JSX.Element} The rendered page component.
+ * @returns {JSX.Element} The rendered dashboard content component.
  */
-export default function Page(): JSX.Element {
+function DashboardContent() {
   const { theme, setTheme } = useTheme()
-  const { temperature, temperatureData, connectionStatus, resetLayout, layoutKey } = useWebSocketData()
+  const { connectionStatus, resetLayout } = useData()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Page(): JSX.Element {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <header className="px-5 h-20 flex items-center gap-5 border-b">
-          <div className="h-12 w-36" /> {/* Placeholder for logo */}
+          <div className="h-12 w-36" /> {/* Logo placeholder */}
           <h1 className="text-foreground text-xl font-semibold">DAQ Technical Assessment</h1>
         </header>
         <main className="flex-grow p-4 md:p-6">
@@ -86,12 +86,21 @@ export default function Page(): JSX.Element {
         </TooltipProvider>
       </header>
       <main className="flex-grow p-4 md:p-6 overflow-hidden">
-        <DashboardLayout
-          temperature={temperature}
-          temperatureData={temperatureData}
-          layoutKey={layoutKey}
-        />
+        <DashboardLayout />
       </main>
     </div>
+  )
+}
+
+/**
+ * Page component that displays DAQ technical assessment. Contains the LiveValue component as well as page header and labels.
+ *
+ * @returns {JSX.Element} The rendered page component.
+ */
+export default function Page(): JSX.Element {
+  return (
+    <DataProvider>
+      <DashboardContent />
+    </DataProvider>
   )
 }

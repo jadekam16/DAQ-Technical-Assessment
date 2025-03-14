@@ -3,35 +3,24 @@
 import { Responsive, WidthProvider } from "react-grid-layout"
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
-import { useWebSocketData } from "@/hooks/use-websocket-data"
 import { TemperatureChartWidget } from "./widgets/temperature-chart-widget"
 import { LiveTemperatureWidget } from "./widgets/live-temperature-widget"
 import { EmptyPanelWidget } from "./widgets/empty-panel-widget"
+import { useData } from "@/contexts/data-wrapper"
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-interface DashboardLayoutProps {
-  temperature: number
-  temperatureData: { timestamp: number; temperature: number }[]
-  layoutKey?: number 
-}
-
 /**
- * Dashboard layout component that displays the widgets in a responsive grid layout.
+ * Dashboard layout component that displays the main dashboard layout.
  *
- * @param {DashboardLayoutProps} props The component props.
  * @returns {JSX.Element} The rendered dashboard layout component.
  */
-export default function DashboardLayout({ 
-  temperature, 
-  temperatureData, 
-  layoutKey = 0
-}: DashboardLayoutProps): JSX.Element {
-  const { layouts, saveLayout } = useWebSocketData()
+export default function DashboardLayout(): JSX.Element {
+  const { layouts, layoutKey, saveLayout, temperatureData } = useData()
 
   const widgets = {
     "temperature-chart": <TemperatureChartWidget data={temperatureData} />,
-    "live-temperature": <LiveTemperatureWidget temperature={temperature} />,
+    "live-temperature": <LiveTemperatureWidget />,
     "panel-1": <EmptyPanelWidget title="Available Panel" />,
     "panel-2": <EmptyPanelWidget title="Available Panel" />
   }

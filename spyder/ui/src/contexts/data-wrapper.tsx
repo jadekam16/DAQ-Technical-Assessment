@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react"
+"use client"
+
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 
 const WS_URL = "ws://localhost:8080"
@@ -14,10 +16,29 @@ interface TemperatureDataPoint {
   timestamp: number
 }
 
+interface DataContextType {
+  temperature: number
+  temperatureData: TemperatureDataPoint[]
+  connectionStatus: string
+  layouts: any
+  layoutKey: number
+  saveLayout: (currentLayout: any, allLayouts: any) => void
+  resetLayout: () => void
+}
+
+const DataContext = createContext<DataContextType | undefined>(undefined)
+
+interface DataProviderProps {
+  children: ReactNode
+}
+
 /**
- * Custom hook to handle WebSocket data.
+ * Data provider component to manage the application data.
+ *
+ * @param {DataProviderProps} props The component props.
+ * @returns {JSX.Element} The rendered data provider component.
  */
-export function useWebSocketData() {
+export function DataProvider({ children }: DataProviderProps) {
   const [temperature, setTemperature] = useState<number>(0)
   const [connectionStatus, setConnectionStatus] = useState<string>("Disconnected")
   const [temperatureData, setTemperatureData] = useState<TemperatureDataPoint[]>([])
@@ -108,7 +129,7 @@ export function useWebSocketData() {
   }, [lastJsonMessage])
 
   /**
-   * Effect hook to load layout from localStorage.
+   * Effect hook to load saved layout from localStorage.
    */
   useEffect(() => {
     const savedLayout = localStorage.getItem('dashboard-layout')
@@ -131,7 +152,10 @@ export function useWebSocketData() {
     setLayoutKey(prevKey => prevKey + 1)
   }
 
-  return {
+  /**
+   * The context value to provide to the children.
+   */
+  const contextValue: DataContextType = {
     temperature,
     temperatureData,
     connectionStatus,
@@ -140,4 +164,22 @@ export function useWebSocketData() {
     saveLayout,
     resetLayout
   }
+
+  return (
+    <DataContext.Provider value={contextValue}>
+      {children}
+    </DataContext.Provider>
+  )
+}
+
+/**
+ * Custom hook to use the data context.
+ * @returns The data context.
+ */
+export function useData() {
+  const context = useContext(DataContext)
+  if (context === undefined) {
+    throw new Error('useData must be used within a DataProvider')
+  }
+  return context
 }
