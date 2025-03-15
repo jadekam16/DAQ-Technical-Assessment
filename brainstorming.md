@@ -167,6 +167,7 @@ const defaultLayouts = {
 ``` 
 
 4. Then, the core drag-and-drop functionality (in `dashboard-layout.tsx`), it was implemented like so:
+
 ```
 <ResponsiveGridLayout
   key={layoutKey}
@@ -186,7 +187,7 @@ const defaultLayouts = {
     </div>
   ))}
 </ResponsiveGridLayout>
-``
+```
 
 - I added a layout key cos I was getting a hydration error (occurs if the server and client render different content), it ensured proper rendering of the grid layout component specifically when layout changes happen, which avoids partial rendering issues :) 
 - Layouts: the layouts object contains positioning information for each screen size (so it's responsive~) 
@@ -197,6 +198,7 @@ Feature #3: Light mode and dark mode! Press the little button on the top right t
 - Easiest feature to implement out of the 3 (phew!)
 
 Basically, just added this logic in to toggle the theme (and change logo):
+
 ```
 const toggleTheme = () => {
   setTheme(theme === "dark" ? "light" : "dark")
