@@ -179,7 +179,7 @@ const defaultLayouts = {
   breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480 }}
   cols={{ lg: 12, md: 12, sm: 12, xs: 12 }}
   rowHeight={40}
-  isResizable={true}
+  isResizable={false}
   isDraggable={true}
   onLayoutChange={(currentLayout, allLayouts) => saveLayout(currentLayout, allLayouts)}
   draggableHandle=".cursor-move"
@@ -194,7 +194,7 @@ const defaultLayouts = {
 
 - I added a layout key cos I was getting a hydration error (occurs if the server and client render different content), it ensured proper rendering of the grid layout component specifically when layout changes happen, which avoids partial rendering issues :) 
 - Layouts: the layouts object contains positioning information for each screen size (so it's responsive~) 
-- isResizable={true}, isDraggable={true} makes it so users can interact with widget (resize, move etc.)
+- isDraggable={true} makes it so users can interact with widget (drag)
 - when `onLayoutChange` event fires, my `saveLayout` function stores this new arrangement in localStorage and `key={layoutKey}`forces a complete re-render when the layout is reset. All this logic is in `data-wrapper.tsx` :D 
 
 #### Feature #3: 

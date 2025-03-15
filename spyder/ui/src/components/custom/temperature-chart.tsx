@@ -32,7 +32,7 @@ interface TemperatureChartProps {
 }
 
 /**
- * Temperature chart component that displays the temperature chart.
+ * Temperature chart component that displays the temperature readings.
  *
  * @param {TemperatureChartProps} props The component props.
  * @returns {JSX.Element} The rendered temperature chart component.
@@ -49,7 +49,7 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ data }) => {
       <CardContent className="px-2 sm:p-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[180px] w-full"
+          className="aspect-auto h-[175px] w-full"
         >
           <LineChart
             accessibilityLayer
