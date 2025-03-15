@@ -6,10 +6,10 @@ This file is used to document your thoughts, approaches and research conducted a
 N/A 
 
 ## Spyder
-Task #1: 
-To install the nodemon packages, I first found the installation command in the nodemon docs and ran `npm install --save-dev nodemon` in both directories to install it as a dev dependency. 
+### Task #1: 
+To install the nodemon packages, I first found the installation command in the nodemon docs and ran `npm install --save-dev nodemon` in the ui directory to install it as a dev dependency. 
 
-Note: I did not install it globally (through `npm install -g nodemon`) as I believe that it won't affect your docker container. 
+Then, I edited the script in package.json to add nodemon in front of it e.g. `"start": "nodemon --exec next start"`. 
 
 ### Task #2: 
 When attempting this task, the first step I did was to run `docker compose up` to see what kind of invalid values/data was being sent. I found that sometimes the temp was sent in a binary-encoded string rather than a number, and after a quick look at the code in the emulator, my thinking was this block of code was causing it:
@@ -74,7 +74,9 @@ So, I wasn't really sure what features to add as I don't know what is typically 
 - notetaking panel
 
 #### Final Features:
-Feature #1: A Chart! My thinking was it's always better to visualise data especially when it's coming in every 500ms! So, I made a nice line chart where you can visualise real-time data (battery temps) as they come in! I used the shadcn chart component which was very handy - I don't typically use shadcn so this was a learning exp for me too! Consulting this doc: https://ui.shadcn.com/charts#line-chart was very useful for me as it basically taught me everything I needed to know and I just customised it a bit :D In terms of how I got the data on there, this block of code probably explains it: 
+
+#### Feature #1: 
+A Chart! My thinking was it's always better to visualise data especially when it's coming in every 500ms! So, I made a nice line chart where you can visualise real-time data (battery temps) as they come in! I used the shadcn chart component which was very handy - I don't typically use shadcn so this was a learning exp for me too! Consulting this doc: https://ui.shadcn.com/charts#line-chart was very useful for me as it basically taught me everything I needed to know and I just customised it a bit :D In terms of how I got the data on there, this block of code probably explains it: 
 
 ```
 const [temperatureData, setTemperatureData] = useState<TemperatureDataPoint[]>([])
@@ -139,7 +141,8 @@ In my temperature chart widget, data was passed as a prop to use here:
 
 Then in my actual temperature chart file `temperature-chart.tsx` - that data is passed as a prop and used to make the line chart :) Hope that makes sense, sorry for the long explanation ;-;
 
-Feature #2: I made some widgets yippee! Thought it'd be cool if everything was made into widgets so you can customise it however you like! You can move the widgets around and re-arrange your dashboard -> drag and droppable + there's also a 'reset layout' button in case you don't like your config (I was playing around with it too much then it was a pain to reset to the original layout so I made a button for it instead!)
+#### Feature #2: 
+I made some widgets yippee! Thought it'd be cool if everything was made into widgets so you can customise it however you like! You can move the widgets around and re-arrange your dashboard -> drag and droppable + there's also a 'reset layout' button in case you don't like your config (I was playing around with it too much then it was a pain to reset to the original layout so I made a button for it instead!)
 
 As for the explanation, I'll give a quick overview:
 1. For each widget type, I created a new component file e.g. `temperature-chart.widget.tsx`, `live-temperature-widget.tsx`. 
@@ -194,7 +197,9 @@ const defaultLayouts = {
 - isResizable={true}, isDraggable={true} makes it so users can interact with widget (resize, move etc.)
 - when `onLayoutChange` event fires, my `saveLayout` function stores this new arrangement in localStorage and `key={layoutKey}`forces a complete re-render when the layout is reset. All this logic is in `data-wrapper.tsx` :D 
 
-Feature #3: Light mode and dark mode! Press the little button on the top right to toggle dark/light mode! 
+#### Feature #3: 
+
+Light mode and dark mode! Press the little button on the top right to toggle dark/light mode! 
 - Easiest feature to implement out of the 3 (phew!)
 
 Basically, just added this logic in to toggle the theme (and change logo):
