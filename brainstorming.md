@@ -245,7 +245,29 @@ Now, onto the actual `data-wrapper.tsx` file. Full disclosure, I wasn't super fa
 
 1. First thing I did was just to copy over all the code that handled the storage/acquisition of data. 
 2. Created context: `const DataContext = createContext<DataContextType | undefined>(undefined)` 
-3. Hook to use context: 
+3. Made a DataProvider function to put all my code in, which returns:
+
+```
+  const contextValue: DataContextType = {
+    temperature,
+    temperatureData,
+    connectionStatus,
+    layouts,
+    layoutKey,
+    saveLayout,
+    resetLayout
+  }
+
+  return (
+    <DataContext.Provider value={contextValue}>
+      {children}
+    </DataContext.Provider>
+  )
+```
+
+which helps make the context value available to all child components, which will be useful for step 5 :)
+
+4. Created custom hook to use context: 
 
 ```
 export function useData() {
@@ -256,7 +278,8 @@ export function useData() {
   return context
 }
 ```
-4. In page.tsx, wrap everything around dataProvider: (EDIT THIS LATER)
+
+5. In `page.tsx`, wrap everything with the DataProvider function, ensures all child components inside the dashboard have access to the shared data.
 ```
 export default function Page(): JSX.Element {
   return (
@@ -267,9 +290,11 @@ export default function Page(): JSX.Element {
 }
 ```
 
-5. For all components that wanna use it, just use useData() to extract info out e.g. `const { layouts, layoutKey, saveLayout, temperatureData } = useData()` 
+6. For all components that wanna use it, just use useData() to extract info out e.g. `const { layouts, layoutKey, saveLayout, temperatureData } = useData()` 
 
 and that's it! 
+
+Would def be open to any feedback / better ways I could have done this! Thanks for reading :D 
 
 ## Cloud
 N/A
