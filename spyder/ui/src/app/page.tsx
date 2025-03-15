@@ -30,18 +30,32 @@ function DashboardContent() {
     setTheme(theme === "dark" ? "light" : "dark")
   }
 
-  // Render loading state if not mounted yet
+  // Placeholder content while loading
   if (!mounted) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <header className="px-5 h-20 flex items-center gap-5 border-b">
-          <div className="h-12 w-36" /> {/* Logo placeholder */}
+          <div className="h-12 w-36 bg-muted rounded animate-pulse"></div>
           <h1 className="text-foreground text-xl font-semibold">DAQ Technical Assessment</h1>
+          <div className="ml-auto flex items-center gap-2">
+            <div className="h-6 w-20 bg-muted rounded-full animate-pulse"></div>
+            <div className="h-8 w-8 bg-muted rounded-full animate-pulse"></div>
+            <div className="h-8 w-8 bg-muted rounded-full animate-pulse"></div>
+          </div>
         </header>
         <main className="flex-grow p-4 md:p-6">
-          {/* Loading state or placeholder for widgets */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {/* Placeholder boxes */}
+            {Array(8).fill(0).map((_, i) => (
+              <div 
+                key={i}
+                className="bg-muted rounded-lg shadow-sm h-64 p-4 animate-pulse flex flex-col"
+              >
+                <div className="h-6 w-3/4 bg-muted-foreground/20 rounded mb-4"></div>
+                <div className="flex-grow flex items-center justify-center">
+                  <div className="h-24 w-24 bg-muted-foreground/20 rounded-full"></div>
+                </div>
+              </div>
+            ))}
           </div>
         </main>
       </div>

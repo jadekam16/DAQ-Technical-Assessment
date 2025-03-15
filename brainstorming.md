@@ -236,6 +236,22 @@ Then, just used a button:
 />
 ```
 
+#### Random Feature:
+Loading state! The mounting happens so quickly though that you probably won't see the loading state that much :(
+
+I used:
+```
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setMounted(true)
+  }, 3000)
+  
+  return () => clearTimeout(timer)
+}, [])
+```
+
+to test it but if you're curious, I think you can also use react devtools to test it out :D 
+
 ### Task #6: 
 Last Task! :D 
 
